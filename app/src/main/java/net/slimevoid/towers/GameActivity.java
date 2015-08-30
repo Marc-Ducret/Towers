@@ -7,9 +7,11 @@ import static java.lang.Math.toDegrees;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 
+import net.slimevoid.towers.entity.Entity;
 import net.slimevoid.towers.view.GameView;
 import net.slimevoid.math.Vec2;
 import android.app.Activity;
@@ -25,10 +27,6 @@ import android.view.WindowManager;
 
 public class GameActivity extends Activity implements Runnable {
 
-    public static final float MOVE_MIN_RADUIS = 50;
-    public static final float SHOOT_MIN_RADUIS = 200;
-    public static final int SHOOT_TOUCH_MAX_DELAY = 150;
-
     public GameView view;
     public Timer timer;
     public final Handler handler = new Handler();
@@ -36,28 +34,24 @@ public class GameActivity extends Activity implements Runnable {
     public SoundPool soundPool;
     public HashMap<Integer, Integer> soundsLoaded;
 
-//    public List<Entity> entities;
-//    public List<Entity> entitiesToAdd;
-//    public List<Entity> entitiesToRm;
+    public List<Entity> entities;
+    public List<Entity> entitiesToAdd;
+    public List<Entity> entitiesToRm;
 
     public int tickCT = 0;
     public long lastCTReset = 0;
     public int frameCT = 0;
     public int tps = 0;
     public int fps = 0;
-    /**
-     * Tick time length in tick periods
-     */
-    public float dt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//        entities = new ArrayList<>();
-//        entitiesToAdd = new ArrayList<>();
-//        entitiesToRm = new ArrayList<>();
+        entities = new ArrayList<>();
+        entitiesToAdd = new ArrayList<>();
+        entitiesToRm = new ArrayList<>();
         view = new GameView(this);
         soundPool = new SoundPool(64, AudioManager.STREAM_MUSIC, 0);
         soundsLoaded = new HashMap<>();
@@ -105,21 +99,22 @@ public class GameActivity extends Activity implements Runnable {
         long beginTime;		// the time when the cycle begun
         long timeDiff;		// the time it took for the cycle to execute
         int sleepTime;		// ms to sleep (<0 if we're behind)
+        double dt = FRAME_PERIOD / 1000.0;
 
         while (true) {
             beginTime = System.currentTimeMillis();
-            tick();
+            tick(dt);
             draw();
             timeDiff = System.currentTimeMillis() - beginTime;
             sleepTime = (int)(FRAME_PERIOD - timeDiff);
 
             if (sleepTime > 0) {
-                dt = 1;
+                dt = FRAME_PERIOD / 1000.0;
                 try {
                     Thread.sleep(sleepTime);
                 } catch (InterruptedException e) {}
             } else {
-                dt = 1 - (sleepTime / (float) FRAME_PERIOD);
+                dt = timeDiff / 1000.0;
             }
         }
     }
@@ -141,16 +136,16 @@ public class GameActivity extends Activity implements Runnable {
         }
     }
 
-    public void tick() {
-//        synchronized (entities) {
-//            for(Entity e : entities) {
-//                e.tick();
-//            }
-//            entities.addAll(entitiesToAdd);
-//            entitiesToAdd.clear();
-//            entities.removeAll(entitiesToRm);
-//            entitiesToRm.clear();
-//        }
+    public void tick(double dt) {
+        synchronized (entities) {
+            for(Entity e : entities) {
+                e.tick(dt);
+            }
+            entities.addAll(entitiesToAdd);
+            entitiesToAdd.clear();
+            entities.removeAll(entitiesToRm);
+            entitiesToRm.clear();
+        }
 
         tickCT ++;
         if(System.currentTimeMillis() - lastCTReset > 1000) {
@@ -162,13 +157,13 @@ public class GameActivity extends Activity implements Runnable {
         }
     }
 
-//    public void addEntity(Entity e) {
-//        entitiesToAdd.add(e);
-//        e.game = this;
-//    }
-//
-//    public void removeEntitity(Entity e) {
-//        if(e.game != null) e.delete();
-//        else entitiesToRm.add(e);
-//    }
+    public void addEntity(Entity e) {
+        entitiesToAdd.add(e);
+        e.enterGame(this);
+    }
+
+    public void removeEntitity(Entity e) {
+        if(e.game != null) e.delete();
+        else entitiesToRm.add(e);
+    }
 }

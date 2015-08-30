@@ -11,8 +11,10 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
+import net.slimevoid.math.Mat;
 import net.slimevoid.math.Vec2;
 import net.slimevoid.towers.GameActivity;
+import net.slimevoid.towers.entity.Entity;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
@@ -22,8 +24,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public Matrix mat;
 	public Matrix invmat;
 	public Paint smallTextPaint;
-	public Paint textPaint;
-	
+//	public Paint textPaint;
+
 	public GameView(GameActivity game) {
 		super(game);
 		this.game = game;
@@ -50,7 +52,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public Vec2 getViewportHalfSize() {
 		float[] s = new float[]{getWidth()/2, getHeight()/2};
 		invmat.mapVectors(s);
-		return new Vec2(s[0], s[1]);
+		return Vec2.NULL.add(s[0], s[1]);
 	}
 	
 	public void gameDraw(Canvas canvas) {
@@ -63,13 +65,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 //		mat.preTranslate(-(float)game.player.pos.x, -(float)game.player.pos.y);
 		mat.invert(invmat);
 		canvas.setMatrix(mat);
-//		game.map.draw(canvas);
-//		synchronized (game.entities) {
-//			for(Entity e : game.entities) {
-//				if(!(e instanceof Player)) e.draw(canvas);
-//			}
-//		}
-//		if(game.player.game != null) game.player.draw(canvas);
+		synchronized (game.entities) {
+			for(Entity e : game.entities) {
+				e.draw(canvas, Mat.ID);
+			}
+		}
 		canvas.restore();
 		canvas.drawText("fps: "+game.fps, 10, 10, smallTextPaint);
 		canvas.drawText("tps: "+game.tps, 10, 25, smallTextPaint);
@@ -104,5 +104,4 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		
 	}
-
 }
