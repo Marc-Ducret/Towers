@@ -12,38 +12,86 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Easy"
-        android:id="@+id/checkBox"
+        android:id="@+id/checkBox1_E"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:checked="false" />
+        android:checked="false"
+        android:onClick="onCheckboxClickedDifficulty"/>
 
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Normal"
-        android:id="@+id/checkBox2"
-        android:layout_alignTop="@+id/checkBox"
+        android:id="@+id/checkBox2_N"
+        android:layout_alignTop="@+id/checkBox1_E"
         android:layout_centerHorizontal="true"
-        android:checked="true" />
+        android:checked="true"
+        android:onClick="onCheckboxClickedDifficulty" />
 
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hard"
-        android:id="@+id/checkBox3"
+        android:id="@+id/checkBox3_H"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:checked="false"
-        android:layout_alignParentStart="false" />
+        android:layout_alignParentStart="false"
+        android:layout_alignParentLeft="false"
+        android:onClick="onCheckboxClickedDifficulty" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:id="@+id/CB_level1"
+        android:checked="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/checkBox3_H"
+        android:onClick="onCheckBoxClickedLevel"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2"
+        android:id="@+id/CB_level2"
+        android:checked="false"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/CB_level1"
+        android:onClick="onCheckBoxClickedLevel"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3"
+        android:id="@+id/CB_level3"
+        android:checked="false"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/CB_level2"
+        android:onClick="onCheckBoxClickedLevel"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4"
+        android:id="@+id/CB_level4"
+        android:checked="false"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/CB_level3"
+        android:onClick="onCheckBoxClickedLevel"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Start"
         android:id="@+id/button"
-        android:layout_below="@+id/checkBox"
+        android:layout_below="@+id/checkBox1_E"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
