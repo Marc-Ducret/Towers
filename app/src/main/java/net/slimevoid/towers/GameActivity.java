@@ -44,6 +44,8 @@ public class GameActivity extends Activity implements Runnable {
     public int tps = 0;
     public int fps = 0;
 
+    public int difficulty,level;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +54,8 @@ public class GameActivity extends Activity implements Runnable {
         entities = new ArrayList<>();
         entitiesToAdd = new ArrayList<>();
         entitiesToRm = new ArrayList<>();
+        difficulty = getIntent().getExtras().getInt("difficulty");
+        level = getIntent().getExtras().getInt("level");
         view = new GameView(this);
         soundPool = new SoundPool(64, AudioManager.STREAM_MUSIC, 0);
         soundsLoaded = new HashMap<>();

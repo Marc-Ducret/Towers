@@ -60,7 +60,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		Paint paint = new Paint();
 		paint.setColor(0xFF202020);
 		canvas.drawRect(0, 0, getWidth(), getHeight(), paint);
-		mat.setTranslate(getWidth() / 2, getHeight()/2);
+		mat.setTranslate(getWidth() / 2, getHeight() / 2);
 		mat.preScale(PIXEL_PER_METER, PIXEL_PER_METER);
 //		mat.preTranslate(-(float)game.player.pos.x, -(float)game.player.pos.y);
 		mat.invert(invmat);
@@ -73,6 +73,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.restore();
 		canvas.drawText("fps: "+game.fps, 10, 10, smallTextPaint);
 		canvas.drawText("tps: "+game.tps, 10, 25, smallTextPaint);
+		canvas.drawText("difficulty: "+game.difficulty, 10, 40, smallTextPaint);
+		canvas.drawText("level: "+game.level, 10, 55, smallTextPaint);
 		game.frameCT++;
 	}
 

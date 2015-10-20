@@ -11,6 +11,8 @@ import android.widget.CheckBox;
 
 public class MainActivity extends AppCompatActivity {
 
+    private int difficulty=1,level=1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +28,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void startGame() {
         Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtra("difficulty",difficulty);
+        intent.putExtra("level",level);
         startActivity(intent);
+
     }
 
     public void onCheckboxClickedDifficulty(View view) {
@@ -41,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                     tmp_CB.setChecked(false);
                     tmp_CB = (CheckBox) findViewById(R.id.checkBox3_H);
                     tmp_CB.setChecked(false);
+                    difficulty=1;
                     // Easy
                 } else {
                     CheckBox tmp_CB = (CheckBox) findViewById(R.id.checkBox1_E);
@@ -53,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                     tmp_CB.setChecked(false);
                     tmp_CB = (CheckBox) findViewById(R.id.checkBox3_H);
                     tmp_CB.setChecked(false);
+                    difficulty=2;
                     // Normal
                 } else {
                     CheckBox tmp_CB = (CheckBox) findViewById(R.id.checkBox2_N);
@@ -65,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                     tmp_CB.setChecked(false);
                     tmp_CB = (CheckBox) findViewById(R.id.checkBox2_N);
                     tmp_CB.setChecked(false);
+                    difficulty=3;
                     // Hard
                 } else {
                     CheckBox tmp_CB = (CheckBox) findViewById(R.id.checkBox3_H);
@@ -89,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     tmp_CB.setChecked(false);
                     tmp_CB = (CheckBox) findViewById(R.id.CB_level4);
                     tmp_CB.setChecked(false);
-                    // Easy
+                    level = 1;
                 }else {
                     CheckBox tmp_CB = (CheckBox) findViewById(R.id.CB_level1);
                     tmp_CB.setChecked(true);
@@ -102,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                     tmp_CB.setChecked(false);
                     tmp_CB = (CheckBox) findViewById(R.id.CB_level4);
                     tmp_CB.setChecked(false);
-                    // Easy
+                    level = 2;
                 }else {
                     CheckBox tmp_CB = (CheckBox) findViewById(R.id.CB_level2);
                     tmp_CB.setChecked(true);
@@ -115,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                     tmp_CB.setChecked(false);
                     tmp_CB = (CheckBox) findViewById(R.id.CB_level4);
                     tmp_CB.setChecked(false);
-                    // Easy
+                    level = 3;
                 }else {
                     CheckBox tmp_CB = (CheckBox) findViewById(R.id.CB_level3);
                     tmp_CB.setChecked(true);
@@ -128,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                     tmp_CB.setChecked(false);
                     tmp_CB = (CheckBox) findViewById(R.id.CB_level1);
                     tmp_CB.setChecked(false);
-                    // Easy
+                    level = 4;
                 }else {
                     CheckBox tmp_CB = (CheckBox) findViewById(R.id.CB_level4);
                     tmp_CB.setChecked(true);
