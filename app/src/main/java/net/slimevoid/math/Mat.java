@@ -34,7 +34,15 @@ public class Mat {
 		}
 		return new Mat(b);
 	}
-	
+
+	public Mat mul(double lambda) {
+		double[] b = new double[3*3];
+		for(int i = 0; i < 3*3; i++) {
+			b[i] = lambda * this.m[i];
+		}
+		return new Mat(b);
+	}
+
 	public Mat mul(Mat a) {
 		double[] b = new double[3*3];
 		for(int i = 1; i <= 3; i ++) {
@@ -116,7 +124,15 @@ public class Mat {
 		b[getId(3,3)] = 1;
 		return new Mat(b);
 	}
-	
+
+	public static Mat scale(double sx, double sy) {
+		double b[] = new double[3*3];
+		b[getId(1, 1)] = sx;
+		b[getId(2, 2)] = sy;
+		b[getId(3,3)] = 1;
+		return new Mat(b);
+	}
+
 	@Override
 	public String toString() {
 		String s = "[";

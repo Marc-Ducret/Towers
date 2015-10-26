@@ -1,25 +1,18 @@
 package net.slimevoid.towers;
 
-import static java.lang.Math.atan2;
-import static java.lang.Math.floor;
-import static java.lang.Math.toDegrees;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
-import java.util.Timer;
 
+import net.slimevoid.math.Vec2;
 import net.slimevoid.towers.entity.Entity;
 import net.slimevoid.towers.view.GameView;
-import net.slimevoid.math.Vec2;
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.graphics.Canvas;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.Window;
@@ -28,9 +21,6 @@ import android.view.WindowManager;
 public class GameActivity extends Activity implements Runnable {
 
     public GameView view;
-    public Timer timer;
-    public final Handler handler = new Handler();
-    public final Random rand = new Random();
     public SoundPool soundPool;
     public HashMap<Integer, Integer> soundsLoaded;
 
@@ -50,6 +40,7 @@ public class GameActivity extends Activity implements Runnable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         entities = new ArrayList<>();
         entitiesToAdd = new ArrayList<>();
@@ -100,10 +91,28 @@ public class GameActivity extends Activity implements Runnable {
 
     @Override
     public void run() {
+        while(!GameView.isInitialized()) {
+            try{
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+            }
+        }
+
         long beginTime;		// the time when the cycle begun
         long timeDiff;		// the time it took for the cycle to execute
         int sleepTime;		// ms to sleep (<0 if we're behind)
         double dt = FRAME_PERIOD / 1000.0;
+
+        //TEST
+        for(int x = 0; x <= 10; x ++) {
+            for(int y = 0; y <= 10; y ++) {
+                Entity e = new Entity() {};
+                e.pos = Vec2.NULL.add(x, y);
+                addEntity(e);
+            }
+        }
+
+        //TEST END
 
         while (true) {
             beginTime = System.currentTimeMillis();

@@ -1,12 +1,11 @@
 package net.slimevoid.towers.view;
 
-import android.annotation.TargetApi;
+import static java.lang.Math.*;
+
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.os.Build;
-import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -17,8 +16,11 @@ import net.slimevoid.towers.GameActivity;
 import net.slimevoid.towers.entity.Entity;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
-	
-	public static float PIXEL_PER_METER = 70;
+
+	public static final float VIEW_W_METER = 16;
+	public static float PIXEL_PER_METER = 0;
+
+	public static boolean isInitialized() {return PIXEL_PER_METER > 0;}
 
 	public GameActivity game;
 	public Matrix mat;
@@ -60,14 +62,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		Paint paint = new Paint();
 		paint.setColor(0xFF202020);
 		canvas.drawRect(0, 0, getWidth(), getHeight(), paint);
-		mat.setTranslate(getWidth() / 2, getHeight() / 2);
-		mat.preScale(PIXEL_PER_METER, PIXEL_PER_METER);
-//		mat.preTranslate(-(float)game.player.pos.x, -(float)game.player.pos.y);
+		mat.setTranslate(getWidth() / 2, 0);
 		mat.invert(invmat);
 		canvas.setMatrix(mat);
 		synchronized (game.entities) {
 			for(Entity e : game.entities) {
-				e.draw(canvas, Mat.ID);
+				Mat isometric = Mat.scale(1, sin(PI / 6)).mul(Mat.rot(PI / 4));
+				e.draw(canvas, isometric);
 			}
 		}
 		canvas.restore();
@@ -79,31 +80,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width,
-			int height) {
-		
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+		System.out.println("Surface Changed");
+		PIXEL_PER_METER = width / VIEW_W_METER;
 	}
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		setWillNotDraw(true);
-		try {
-			if(game.getPackageManager().getPackageInfo(game.getPackageName(), 0).versionCode >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-				densityCheck();
-			}
-		} catch (Exception e) {
-		}
 	}
 	
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-	public void densityCheck() {
-		DisplayMetrics dm = new DisplayMetrics();
-		getDisplay().getMetrics(dm);
-		PIXEL_PER_METER = dm.xdpi * .3F;
-	}
-
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		
 	}
 }
