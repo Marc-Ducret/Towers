@@ -1,6 +1,7 @@
 package net.slimevoid.towers.entity;
 
 import net.slimevoid.math.Vec2;
+import net.slimevoid.towers.R;
 
 public class Tower extends Entity {
 
@@ -34,5 +35,15 @@ public class Tower extends Entity {
                 game.addEntity(new Projectile(props, creep, pos));
             }
         }
+    }
+
+    @Override
+    protected int getSpriteID() {
+        return R.drawable.testtower;
+    }
+
+    @Override
+    protected Vec2 getSpriteSize() {
+        return Vec2.NULL.add(1, 2);
     }
 }

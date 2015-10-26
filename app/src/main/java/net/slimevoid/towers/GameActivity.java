@@ -106,9 +106,9 @@ public class GameActivity extends Activity implements Runnable {
         //TEST
         for(int x = 0; x <= 10; x ++) {
             for(int y = 0; y <= 10; y ++) {
-                Entity e = new Entity() {};
-                e.pos = Vec2.NULL.add(x, y);
-                addEntity(e);
+//                Entity e = new Entity() {};
+//                e.pos = Vec2.NULL.add(x, y);
+//                addEntity(e);
             }
         }
 

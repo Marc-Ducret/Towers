@@ -25,12 +25,12 @@ public class Sprite {
                              (float) (pos.y - size.y/2) * GameView.PIXEL_PER_METER, new Paint());
     }
 
-    public static Sprite loadSprite(Resources res, int id, double w, double h) {
+    protected static Sprite loadSprite(Resources res, int id, Vec2 size) {
         Bitmap bmp = BitmapFactory.decodeResource(res, id);
-        bmp = Bitmap.createScaledBitmap(bmp, (int) (w * GameView.PIXEL_PER_METER), (int) (h * GameView.PIXEL_PER_METER), true);
+        bmp = Bitmap.createScaledBitmap(bmp, (int) (size.x * GameView.PIXEL_PER_METER), (int) (size.y * GameView.PIXEL_PER_METER), true);
         return new Sprite(
                 bmp,
-                Vec2.NULL.add(w, h)
+                size
                 );
     }
 }

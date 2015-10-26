@@ -5,14 +5,12 @@ import android.graphics.Canvas;
 import net.slimevoid.math.Mat;
 import net.slimevoid.math.Vec2;
 import net.slimevoid.towers.GameActivity;
-import net.slimevoid.towers.R;
 import net.slimevoid.towers.view.Sprite;
+import net.slimevoid.towers.view.SpriteManager;
 
 public abstract class Entity {
 
     protected Sprite sprite;
-
-    private static Sprite TEMP_SPRITE;
 
     public Vec2 pos;
     /***
@@ -36,11 +34,13 @@ public abstract class Entity {
 
     public void enterGame(GameActivity game) {
         this.game = game;
-        if(TEMP_SPRITE == null) TEMP_SPRITE = Sprite.loadSprite(game.getResources(), R.drawable.testrobot, 1, 1);
-        sprite = TEMP_SPRITE;
+        sprite = SpriteManager.getSprite(game.getResources(), getSpriteID(), getSpriteSize());
     }
 
     public void delete() {
 
     }
+
+    protected abstract int getSpriteID();
+    protected abstract Vec2 getSpriteSize();
 }
