@@ -1,11 +1,19 @@
 package net.slimevoid.towers;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import net.slimevoid.math.Vec2;
+import net.slimevoid.towers.entity.Creep;
+import net.slimevoid.towers.entity.DamageEffect;
 import net.slimevoid.towers.entity.Entity;
+import net.slimevoid.towers.entity.SlowEffect;
+import net.slimevoid.towers.entity.Tower;
+import net.slimevoid.towers.entity.TowerProps;
 import net.slimevoid.towers.view.GameView;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
@@ -23,6 +31,7 @@ public class GameActivity extends Activity implements Runnable {
     public GameView view;
     public SoundPool soundPool;
     public HashMap<Integer, Integer> soundsLoaded;
+    public Random rand;
 
     public List<Entity> entities;
     public List<Entity> entitiesToAdd;
@@ -34,7 +43,7 @@ public class GameActivity extends Activity implements Runnable {
     public int tps = 0;
     public int fps = 0;
 
-    public int difficulty,level;
+    public int difficulty, level;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +51,7 @@ public class GameActivity extends Activity implements Runnable {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        rand = new Random();
         entities = new ArrayList<>();
         entitiesToAdd = new ArrayList<>();
         entitiesToRm = new ArrayList<>();
@@ -106,17 +116,29 @@ public class GameActivity extends Activity implements Runnable {
         //TEST
         for(int x = 0; x <= 10; x ++) {
             for(int y = 0; y <= 10; y ++) {
-//                Entity e = new Entity() {};
-//                e.pos = Vec2.NULL.add(x, y);
-//                addEntity(e);
+                Entity e = new Creep();
+                e.pos = Vec2.NULL.add(x, y);
+                addEntity(e);
             }
         }
+        addEntity(new Tower(
+                new TowerProps(5, 2, 0, 2, new DamageEffect(10)),
+                Vec2.NULL.add(5, 5)));
+        addEntity(new Tower(
+                new TowerProps(3, .5, 2, 1.5, new SlowEffect()),
+                Vec2.NULL.add(9, 9)));
 
         //TEST END
 
         while (true) {
             beginTime = System.currentTimeMillis();
             tick(dt);
+            Collections.sort(entities, new Comparator<Entity>() {
+                @Override
+                public int compare(Entity lhs, Entity rhs) {
+                    return (int) ((lhs.pos.y - rhs.pos.y) * 1000);
+                }
+            });
             draw();
             timeDiff = System.currentTimeMillis() - beginTime;
             sleepTime = (int)(FRAME_PERIOD - timeDiff);

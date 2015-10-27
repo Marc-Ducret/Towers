@@ -38,7 +38,11 @@ public abstract class Entity {
     }
 
     public void delete() {
-
+        if(game != null) {
+            GameActivity g = game;
+            game = null;
+            g.removeEntitity(this);
+        }
     }
 
     protected abstract int getSpriteID();

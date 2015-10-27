@@ -1,6 +1,7 @@
 package net.slimevoid.towers.entity;
 
 import net.slimevoid.math.Vec2;
+import net.slimevoid.towers.R;
 
 public class Projectile extends Entity {
 
@@ -27,8 +28,19 @@ public class Projectile extends Entity {
             } else {
                 props.effect.effect(target);
             }
+            delete();
         } else {
             pos = pos.add(target.pos.subst(this.pos).normalize().mul(dp));
         }
+    }
+
+    @Override
+    protected int getSpriteID() {
+        return R.drawable.ball;
+    }
+
+    @Override
+    protected Vec2 getSpriteSize() {
+        return Vec2.NULL.add(.5, .5);
     }
 }

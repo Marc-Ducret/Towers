@@ -34,6 +34,7 @@ public class Tower extends Entity {
             if(mindsq <= props.range) {
                 game.addEntity(new Projectile(props, creep, pos));
             }
+            fireCD = 1 / props.firerate;
         }
     }
 
