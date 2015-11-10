@@ -76,24 +76,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		//Determine background
 		switch(game.level){
 			case 1:
-				sprite = SpriteManager.getSprite(game.getResources(), R.drawable.level1, Vec2.NULL.add(1,  1));
+				background = SpriteManager.getSprite(game.getResources(), R.drawable.level1, Vec2.NULL.add(1,  1));
 				break;
 			case 2:
-				sprite = SpriteManager.getSprite(game.getResources(), R.drawable.level2, Vec2.NULL.add(1,  1));
+				background = SpriteManager.getSprite(game.getResources(), R.drawable.level2, Vec2.NULL.add(1,  1));
 				break;
 			case 3:
-				sprite = SpriteManager.getSprite(game.getResources(), R.drawable.level3, Vec2.NULL.add(1,  1));
+				background = SpriteManager.getSprite(game.getResources(), R.drawable.level3, Vec2.NULL.add(1,  1));
 				break;
 			case 4:
-				sprite = SpriteManager.getSprite(game.getResources(), R.drawable.level4, Vec2.NULL.add(1,  1));
+				background = SpriteManager.getSprite(game.getResources(), R.drawable.level4, Vec2.NULL.add(1,  1));
 				break;
 			default:
-				sprite = SpriteManager.getSprite(game.getResources(), R.drawable.level1, Vec2.NULL.add(1,  1));
+				background = SpriteManager.getSprite(game.getResources(), R.drawable.level1, Vec2.NULL.add(1,  1));
 				break;
 		}
 		//Draw background
-		
-		sprite.draw(canvas,Vec2.NULL.add(0,  0));
+		background.draw(canvas,Vec2.NULL.add(0,  0));
 		
 		canvas.drawText("fps: "+game.fps, 10, 10, smallTextPaint);
 		canvas.drawText("tps: "+game.tps, 10, 25, smallTextPaint);
