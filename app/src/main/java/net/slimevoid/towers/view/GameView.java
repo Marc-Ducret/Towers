@@ -26,6 +26,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public Matrix mat;
 	public Matrix invmat;
 	public Paint smallTextPaint;
+	public sprite background;
 //	public Paint textPaint;
 
 	public GameView(GameActivity game) {
@@ -72,6 +73,28 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			}
 		}
 		canvas.restore();
+		//Determine background
+		switch(game.level){
+			case 1:
+				sprite = SpriteManager.getSprite(game.getResources(), R.drawable.level1, Vec2.NULL.add(1,  1));
+				break;
+			case 2:
+				sprite = SpriteManager.getSprite(game.getResources(), R.drawable.level2, Vec2.NULL.add(1,  1));
+				break;
+			case 3:
+				sprite = SpriteManager.getSprite(game.getResources(), R.drawable.level3, Vec2.NULL.add(1,  1));
+				break;
+			case 4:
+				sprite = SpriteManager.getSprite(game.getResources(), R.drawable.level4, Vec2.NULL.add(1,  1));
+				break;
+			default:
+				sprite = SpriteManager.getSprite(game.getResources(), R.drawable.level1, Vec2.NULL.add(1,  1));
+				break;
+		}
+		//Draw background
+		
+		sprite.draw(canvas,Vec2.NULL.add(0,  0));
+		
 		canvas.drawText("fps: "+game.fps, 10, 10, smallTextPaint);
 		canvas.drawText("tps: "+game.tps, 10, 25, smallTextPaint);
 		canvas.drawText("difficulty: "+game.difficulty, 10, 40, smallTextPaint);
